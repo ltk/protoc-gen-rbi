@@ -101,10 +101,10 @@ func rubyFieldRepeatedType(field pgs.Field, ft pgs.FieldType, mt methodType) str
 	// An enumerable/array is not accepted at the setter
 	// See: https://github.com/protocolbuffers/protobuf/issues/4969
 	// See: https://developers.google.com/protocol-buffers/docs/reference/ruby-generated#repeated-fields
-	if mt == methodTypeSetter {
-		return "::Google::Protobuf::RepeatedField"
-	}
 	value := rubyProtoTypeElem(field, ft.Element(), mt)
+	if mt == methodTypeSetter {
+		return fmt.Sprintf("::Google::Protobuf::RepeatedField[%s]", value)
+	}
 	return fmt.Sprintf("T::Array[%s]", value)
 }
 
